@@ -1,0 +1,33 @@
+// 暗黑模式
+@forward 'element-plus/theme-chalk/src/dark/var.scss' with (
+  $bg-color: (
+    'page': #0a0a0a,
+    '': #202020,
+    'overlay': #1d1e1f
+  )
+);
+
+// import dark theme
+@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
+
+html {
+  // 主要内容颜色
+  --theme-content-bg-color: #efefef;
+  // 左侧菜单颜色
+  --theme-menu-font-color: #323232;
+  --theme-menu-divider: #d2d2d2;
+  // 左侧菜单激活颜色
+  --theme-menu-active-border: transparent;
+  --theme-menu-active-bg-color: transparent;
+  --theme-menu-active-font-color: #006abe;
+
+  &.dark {
+    --theme-window-border: #3a3a3a;
+    --theme-content-bg-color: #2d2d2d;
+    --theme-menu-font-color: #fff;
+    --theme-menu-divider: #353535;
+    --theme-menu-active-border: #303030;
+    --theme-menu-active-bg-color: #2d2d2d;
+    --theme-menu-active-font-color: #3da9ff;
+  }
+}
