@@ -37,6 +37,7 @@
     "@vueuse/core": "^10.7.1",
     "electron": "^26.1.0",
     "electron-builder": "^24.6.4",
+    "electron-rebuild": "^3.2.9",
     "electron-vite": "^1.0.27",
     "element-plus": "^2.4.4",
     "eslint": "^8.47.0",

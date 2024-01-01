@@ -23,10 +23,18 @@ $ npm run dev
 ### Build
 
 ```bash
-# 使用项目时需要编译模块
+# 使用项目时需要编译模块(旧)
 cd node_modules\ref-napi\
 node-gyp configure
 node-gyp build
+
+# 使用 Greenworks 前注意
+$ npm install --save --ignore-scripts git+https://github.com/greenheartgames/greenworks.git
+# https://partner.steamgames.com 下载 Steamworks SDK 覆盖安装至
+copy Project\node_modules\greenworks\deps\steamworks_sdk
+$ npm install
+$ npm install --save-dev electron-rebuild
+.\node_modules\.bin\electron-rebuild.cmd
 
 # For windows
 $ npm run build:win
