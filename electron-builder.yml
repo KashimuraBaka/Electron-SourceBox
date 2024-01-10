@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.sourcebox.app
 productName: SourceBox
 directories:
   buildResources: build
@@ -9,13 +9,14 @@ files:
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
-extraFiles:
-  - 'steam_appid.txt'
 asarUnpack:
   - resources/**
 win:
+  icon: resources/icon.ico
   executableName: SourceBox
 nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}

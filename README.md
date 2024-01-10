@@ -28,13 +28,16 @@ cd node_modules\ref-napi\
 node-gyp configure
 node-gyp build
 
-# 使用 Greenworks 前注意
+# 使用 Greenworks 前注意(由于不再维护,改用Steamworks.js)
 $ npm install --save --ignore-scripts git+https://github.com/greenheartgames/greenworks.git
 # https://partner.steamgames.com 下载 Steamworks SDK 覆盖安装至
 copy Project\node_modules\greenworks\deps\steamworks_sdk
 $ npm install
 $ npm install --save-dev electron-rebuild
 .\node_modules\.bin\electron-rebuild.cmd
+# electron-builder.yml
+extraFiles:
+  - 'steam_appid.txt'
 
 # For windows
 $ npm run build:win
