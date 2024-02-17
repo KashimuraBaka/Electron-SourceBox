@@ -1,0 +1,9 @@
+@use './dark.scss';
+
+// 默认样式
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $bg-color: (
+    '': transparent,
+    'page': black
+  )
+);

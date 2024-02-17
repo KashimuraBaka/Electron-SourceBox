@@ -1,0 +1,8 @@
+// 默认样式
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $bg-color: (
+    '': #f3f3f3
+  )
+);
+
+@use 'element-plus/theme-chalk/src/index.scss' as *;

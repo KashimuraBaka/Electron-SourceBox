@@ -1,0 +1,108 @@
+// 暗黑模式
+@forward 'element-plus/theme-chalk/src/dark/var.scss' with (
+  $bg-color: (
+    'page': #0a0a0a,
+    '': #202020,
+    'overlay': #1d1e1f
+  )
+);
+
+// import dark theme
+@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
+
+html {
+  // 窗口边框颜色
+  --theme-window-border: #b3b3b3;
+  // 主要内容颜色
+  --theme-content-bg: #f9f9f9;
+  --theme-content-border-color: #e0e6ea;
+  // 左侧菜单颜色
+  --theme-menu-font-color: #323232;
+  --theme-menu-divider: #d2d2d2;
+  // 左侧菜单激活颜色
+  --theme-menu-active-border: transparent;
+  --theme-menu-active-bg-color: transparent;
+  --theme-menu-active-font-color: #006abe;
+  // 卡片颜色
+  --theme-card-bg-color: #e9eaed;
+  --theme-card-bg-hover-color: #e9eaed;
+  --theme-card-border-color: #dfe0e2;
+  --theme-card-border-hover-color: #dfe0e2;
+  --theme-card-content-color: #e9eaed;
+  --theme-card-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+  // 按钮颜色
+  --theme-btn-color: var(--theme-menu-font-color);
+  --theme-btn-bg-color: var(--theme-content-bg);
+  --theme-btn-hover-bg-color: #323232;
+  --theme-btn-border-color: #383838;
+  --theme-btn-disabled-font-color: #aaa;
+  --theme-btn-disabled-border-color: #202020;
+  // 对话框颜色
+  --theme-dialog-bg-color: #2b2b2b;
+  --theme-dialog-bottom-bg-color: #202020;
+  --theme-dialog-bottom-border-color: #1d1d1d;
+  // 抽屉盒子边框颜色
+  --theme-drawer-border-color: #dfe0e2;
+  // 输入框颜色
+  --theme-input-bg-color: #343434;
+  --theme-input-border-color: #363636;
+  --theme-input-focus-bg-color: #393939;
+  --theme-input-bottom-color: #9d9d9d;
+  --theme-input-focus-bottom-color: #76b9ed;
+  // 选择框颜色
+  --theme-select-bg-color: #3e3e3e;
+  --theme-select-border-color: #454545;
+  --theme-select-focus-bg-color: #434343;
+  --theme-select-menu-bg-color: #2e2e2e;
+  --theme-select-menu-hover-bg-color: #393939;
+  // 开关颜色
+  --theme-switch-bg-color: #f7f7f7;
+  --theme-switch-hover-bg-color: #eeeeee;
+  --theme-switch-checked-bg-color: #005a9e;
+  --theme-switch-checked-hover-bg-color: #1a6ba8;
+  --theme-switch-border-color: #8a8a8a;
+  --theme-switch-action-color: #5e5e5e;
+  --theme-switch-checked-action-color: #ffffff;
+  // 消息框颜色
+  --theme-msg-bg-color: #323232;
+  // 多选框颜色
+  --theme-checkbox-checked-bg-color: #006ABE;
+  --theme-checkbox-checked-icon-color: white;
+
+  // 暗黑主题
+  &.dark {
+    --theme-window-border: #3a3a3a;
+    --theme-content-bg: #272727;
+    --theme-content-border-color: transparent;
+    // 左侧菜单激活颜色
+    --theme-menu-font-color: #fff;
+    --theme-menu-divider: #353535;
+    --theme-menu-active-border: #303030;
+    --theme-menu-active-bg-color: #2d2d2d;
+    --theme-menu-active-font-color: #76b9ed;
+    // 卡片颜色
+    --theme-card-bg-color: #323232;
+    --theme-card-bg-hover-color: #333;
+    --theme-card-border-color: #232323;
+    --theme-card-border-hover-color: #242424;
+    --theme-card-content-color: #2e2e2e;
+    // 按钮颜色
+    --theme-btn-color: #fff;
+    --theme-btn-bg-color: #3e3e3e;
+    --theme-btn-hover-bg-color: #434343;
+    --theme-btn-border-color: #454545;
+    // 消息框颜色
+    --theme-drawer-border-color: #343434;
+    // 开关颜色
+    --theme-switch-bg-color: #2d2d2d;
+    --theme-switch-hover-bg-color: #3b3b3b;
+    --theme-switch-checked-bg-color: #76b9ed;
+    --theme-switch-checked-hover-bg-color: #6fabda;
+    --theme-switch-border-color: #a1a1a1;
+    --theme-switch-action-color: #cfcfcf;
+    --theme-switch-checked-action-color: #000000;
+    // 多选框颜色
+    --theme-checkbox-checked-bg-color: #3da9ff;
+    --theme-checkbox-checked-icon-color: black;
+  }
+}
