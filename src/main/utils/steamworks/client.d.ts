@@ -205,7 +205,10 @@ export namespace callback {
    * @param steam_callback Steam用户操作回调
    * @param handler 发生时间回调
    */
-  export function registerCallback<C extends keyof import('./callbacks').CallbackReturns>(steamCallback: C, handler: (value: import('./callbacks').CallbackReturns[C]) => void): Handle
+  export function registerCallback<C extends keyof import('./callbacks').CallbackReturns>(
+    steamCallback: C,
+    handler: (value: import('./callbacks').CallbackReturns[C]) => void
+  ): Handle
   export class Handle {
     disconnect(): void
   }
@@ -908,7 +911,15 @@ export namespace steamugc {
    * @param progress_callback 创意工坊上传失败时回调
    * @param progress_callback_interval_ms 创意工坊回调时间
    */
-  export function updateItemWithCallback(itemId: bigint, updateDetails: UgcUpdate, appId: number | undefined | null, successCallback: (data: UgcResult) => void, errorCallback: (err: any) => void, progressCallback?: (data: UpdateProgress) => void, progressCallbackIntervalMs?: number | undefined | null): void
+  export function updateItemWithCallback(
+    itemId: bigint,
+    updateDetails: UgcUpdate,
+    appId: number | undefined | null,
+    successCallback: (data: UgcResult) => void,
+    errorCallback: (err: any) => void,
+    progressCallback?: (data: UpdateProgress) => void,
+    progressCallbackIntervalMs?: number | undefined | null
+  ): void
 }
 export namespace steamuser {
   /**
