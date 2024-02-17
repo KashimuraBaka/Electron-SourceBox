@@ -3,12 +3,28 @@
     <el-header>
       <a>服务器列表</a>
       <div class="btns">
-        <el-button text :icon="CirclePlusFilled" @click="addCustomServer" />
+        <!-- 刷新服务器 -->
+        <el-button :loading="refreshing" @click="blockRefresh">
+          <template #icon>
+            <i-material-symbols:refresh />
+          </template>
+          <template #loading>
+            <el-icon class="is-loading">
+              <i-material-symbols:refresh />
+            </el-icon>
+          </template>
+        </el-button>
+        <!-- 添加服务器 -->
+        <el-button @click="addCustomServer">
+          <template #icon>
+            <i-mdi:server-plus />
+          </template>
+        </el-button>
       </div>
     </el-header>
     <el-main>
-      <el-table class="w-table_1" :data="tableData" size="small" @row-click="openExtend">
-        <el-table-column prop="status" width="20">
+      <el-table class="w-table_1 full" :data="tableData" size="small" @row-click="openExtend">
+        <el-table-column prop="status" width="25">
           <template #default="{ row }">
             <div :class="getDelayClass(row.Delay)" />
           </template>
@@ -33,7 +49,6 @@
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
-import { CirclePlusFilled } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import ServersDialogs from './ServersDialogs.vue'
@@ -42,7 +57,8 @@ const drawer = ref()
 
 let timer: NodeJS.Timeout | undefined
 
-const tableData = reactive<TSourceServerInfo[]>([])
+const tableData = reactive<A2S.SourceServerInfoFormIP[]>([])
+const refreshing = ref(false)
 
 const getDelayClass = (delay: number) => {
   if (delay > -1) {
@@ -64,16 +80,20 @@ const addCustomServer = () => {
     cancelButtonText: '取消',
     appendTo: '#server',
     showClose: false,
+    inputPlaceholder: '格式: ***.***.***.***:27015 (支持域名)',
     inputPattern: /^(\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3}|(\w*\.|)\w*\.\w*):(\d{1,5})$/,
     inputErrorMessage: '请输入正确的服务器IP/端口，例子: 127.0.0.1:27015'
   })
     .then(({ value }) => {
       if (tableData.findIndex((v) => v.IP == value) != -1) {
-        ElMessage.error('添加失败，服务器列表已存在！')
+        ElMessage.error({
+          message: '添加失败，服务器列表已存在！',
+          appendTo: '#server'
+        })
       } else {
         tableData.push(createNewList(value))
         window.config.set(
-          'servers',
+          'starlist',
           'servers',
           tableData.map((v) => v.IP)
         )
@@ -87,7 +107,7 @@ const removeCustomServer = (address: string) => {
   if (index != -1) {
     tableData.splice(index, 1)
     window.config.set(
-      'servers',
+      'starlist',
       'servers',
       tableData.map((v) => v.IP)
     )
@@ -119,30 +139,46 @@ const createNewList = (IP: string) => ({
   GameID: 0n
 })
 
+const blockRefresh = () => {
+  refreshing.value = true
+  refreshTable()
+  setTimeout(() => {
+    refreshing.value = false
+  }, 500)
+}
+
+/** 刷新服务器列表 */
 const refreshTable = async () => {
+  clearInterval(timer)
   for (let i = 0; i < tableData.length; i++) {
     window.steamworks.run('simpleQueryServer', tableData[i].IP).then((res) => {
-      tableData[i] = {
-        ...tableData[i],
-        ...res
+      if (res.Delay == -1) {
+        tableData[i].Delay = -1
+      } else {
+        tableData[i] = {
+          ...tableData[i],
+          ...res
+        }
       }
     })
   }
+  timer = setTimeout(() => refreshTable(), 5000)
 }
 
-const openExtend = (row: TSourceServerInfo) => {
+/** 打开右侧扩展菜单 */
+const openExtend = (row: A2S.SourceServerInfoFormIP) => {
   if (row.Delay != -1) {
     drawer.value.openWithServer(row)
   }
 }
 
 onMounted(async () => {
-  const serversIP: string[] = await window.config.get('servers', 'servers')
+  const serversIP: string[] = await window.config.get('starlist', 'servers')
   serversIP.forEach((val) => tableData.push(createNewList(val)))
   refreshTable()
-  timer = setInterval(() => refreshTable(), 5000)
 })
 
+/** 取消自动刷新服务器 */
 onUnmounted(() => {
   clearInterval(timer)
 })
@@ -166,19 +202,28 @@ onUnmounted(() => {
     .btns {
       .el-button {
         padding: 0;
+        width: 32px;
+        height: 32px;
+        border: 0;
 
         &:hover {
+          color: var(--theme-btn-color);
+          background-color: var(--theme-btn-hover-bg-color);
+        }
+
+        &:focus {
+          color: var(--theme-btn-color);
           background: none;
         }
 
         :deep(.el-icon) {
           width: 24px;
           height: 24px;
+          font-size: 24px;
+        }
 
-          svg {
-            height: 24px;
-            width: 24px;
-          }
+        & + .el-button {
+          margin-left: 4px;
         }
       }
     }
@@ -186,12 +231,6 @@ onUnmounted(() => {
   .el-main {
     padding: 0 10px;
   }
-}
-
-.el-table {
-  // 自适应宽度
-  width: 100%;
-  height: 100%;
 }
 
 // 状态圆点

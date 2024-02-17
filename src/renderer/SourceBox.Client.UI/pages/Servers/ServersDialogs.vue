@@ -1,12 +1,6 @@
 <template>
   <div id="overlay">
-    <el-drawer
-      v-model="display"
-      :show-close="false"
-      :with-header="false"
-      modal-class="w-modal"
-      size="50%"
-    >
+    <el-drawer v-model="display" :show-close="false" :with-header="false" modal-class="w-modal" size="50%">
       <div class="container">
         <div class="header">
           <el-tag>{{ raw?.Folder }}</el-tag>
@@ -18,12 +12,8 @@
           <el-descriptions :column="1" size="small">
             <el-descriptions-item label="当前地图">{{ raw?.Map }}</el-descriptions-item>
             <el-descriptions-item label="服务器环境">{{ raw?.Envirnoment }}</el-descriptions-item>
-            <el-descriptions-item label="服务器类型">
-              {{ raw?.ServerType }} [{{ raw?.Visibility ? '私人' : '公开' }}]
-            </el-descriptions-item>
-            <el-descriptions-item label="人数">
-              {{ raw?.Player }}/{{ raw?.PlayerMax }}
-            </el-descriptions-item>
+            <el-descriptions-item label="服务器类型"> {{ raw?.ServerType }} [{{ raw?.Visibility ? '私人' : '公开' }}] </el-descriptions-item>
+            <el-descriptions-item label="人数"> {{ raw?.Player }}/{{ raw?.PlayerMax }} </el-descriptions-item>
             <el-descriptions-item label="VAC保护">
               {{ raw?.Vac ? '启用' : '禁用' }}
             </el-descriptions-item>
@@ -37,7 +27,7 @@
             <el-radio-button label="玩家" />
             <el-radio-button label="参数" />
           </el-radio-group>
-          <el-table v-if="selectMode == '玩家'" class="w-table_2" :data="players" size="small">
+          <el-table v-if="selectMode == '玩家'" class="w-table_2 full" :data="players" size="small">
             <el-table-column label="玩家">
               <template #default="{ row }">
                 {{ row.Name || '正在载入中...' }}
@@ -62,14 +52,7 @@
       </div>
     </el-drawer>
     <!-- 挤服工具 -->
-    <el-dialog
-      v-model="enableGoServer"
-      class="c-dialog"
-      modal-class="w-modal"
-      align-center
-      :width="380"
-      :show-close="false"
-    >
+    <el-dialog v-model="enableGoServer" class="c-dialog" modal-class="w-modal" align-center :width="380" :show-close="false">
       <template #header>挤服小助手</template>
       <div class="content">
         <div><span>服务器</span>{{ raw?.Name }}</div>
@@ -95,14 +78,7 @@
             {{ connectOptions.start ? '停止' : '开始' }}
           </el-button>
         </span>
-        <el-progress
-          v-show="connectOptions.start"
-          :percentage="50"
-          :indeterminate="true"
-          :show-text="false"
-          :stroke-width="8"
-          :duration="1.5"
-        />
+        <el-progress v-show="connectOptions.start" :percentage="50" :indeterminate="true" :show-text="false" :stroke-width="8" :duration="1.5" />
       </template>
     </el-dialog>
   </div>
@@ -113,15 +89,18 @@ import { reactive, ref } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 import { SteamConsole } from '@renderer/utils'
+import useCounterStore from '@desktop/services/store'
 
-let check_timer
+let check_timer: NodeJS.Timeout
 
 const emit = defineEmits<{
   (e: 'remove', value: string): void
 }>()
 
+const store = useCounterStore()
+
 const display = ref(false)
-const raw = ref<TSourceServerInfo>()
+const raw = ref<A2S.SourceServerInfoFormIP>()
 const players = ref<A2S.SourceServerPlayer[]>([])
 const rules = ref<A2S.SourceServerRule[]>([])
 const enableGoServer = ref(false)
@@ -131,13 +110,6 @@ const connectOptions = reactive({
   delay: 300
 })
 const selectMode = ref('玩家')
-
-const openWithServer = async (data: TSourceServerInfo) => {
-  display.value = true
-  selectMode.value = '玩家'
-  raw.value = data
-  await refreshModeInfo(selectMode.value)
-}
 
 const refreshModeInfo = (mode: string | number | boolean) => {
   if (!raw.value) return
@@ -167,6 +139,9 @@ const refreshModeInfo = (mode: string | number | boolean) => {
 const connectToServer = () => {
   if (!raw.value) return
   SteamConsole.connect(raw.value.IP)
+  if (store.web.enable) {
+    store.createSourceServerMessage(raw.value.IP)
+  }
 }
 
 /** 开始检测服务器人数 */
@@ -182,7 +157,7 @@ const runForceConnect = () => {
             raw.value.Delay = res.Delay
             if (connectOptions.player > raw.value.Player) {
               connectOptions.start = false
-              // cb()
+              connectToServer()
             }
           }
         })
@@ -232,7 +207,14 @@ const deleteServer = () => {
     .catch(() => {})
 }
 
-defineExpose({ openWithServer })
+defineExpose({
+  async openWithServer(data: A2S.SourceServerInfoFormIP) {
+    display.value = true
+    selectMode.value = '玩家'
+    raw.value = data
+    refreshModeInfo(selectMode.value)
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -309,10 +291,6 @@ defineExpose({ openWithServer })
       // 关闭表格边框
       --el-table-border: none;
       --el-table-border-color: transparent;
-
-      // 撑开内容
-      height: 100%;
-      width: 100%;
     }
   }
 
@@ -376,7 +354,7 @@ defineExpose({ openWithServer })
         background-color: transparent;
 
         .el-progress-bar__inner {
-          background-color: #313232;
+          background-color: #323232;
         }
       }
     }

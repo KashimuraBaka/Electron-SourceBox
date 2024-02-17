@@ -1,13 +1,5 @@
 <template>
-  <el-dialog
-    v-model="dialogVisible"
-    modal-class="w-modal"
-    width="350"
-    top="25vh"
-    :show-close="false"
-    @opened="handleOpen"
-    @closed="handleClose"
-  >
+  <el-dialog v-model="dialogVisible" modal-class="w-modal" width="350" top="25vh" :show-close="false" @opened="handleOpen" @closed="handleClose">
     <template #header>修改当前 AppID</template>
     <div class="container">
       <el-autocomplete
@@ -42,12 +34,13 @@
 </template>
 
 <script lang="ts" setup>
-import { Steam } from '@renderer/utils/api'
-import { TSteamAppid } from '@renderer/utils/api/types'
 import { ref } from 'vue'
+import { API } from '@renderer/utils'
 
 import { Loading } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+
+import type { TSteamAppid } from '@renderer/utils/api/types'
 
 const emit = defineEmits<{
   (e: 'appidChange', value: { appid: number; name: string }): void
@@ -58,7 +51,7 @@ const appids = ref<TSteamAppid<string>[]>([])
 const appName = ref('')
 
 const handleOpen = async () => {
-  const res = await Steam.GetAppList()
+  const res = await API.Steam.GetAppList()
   if (dialogVisible.value) {
     appids.value = res
   } else {
@@ -74,9 +67,7 @@ const querySearchAsync = (queryString: string, cb: (arg: TSteamAppid<string>[]) 
   const lowerQuery = queryString.toLocaleLowerCase()
   if (lowerQuery.length && appids.value.length) {
     const result = isNaN(Number(lowerQuery))
-      ? appids.value.filter((v) =>
-          v.name.length ? v.name.toLocaleLowerCase().includes(lowerQuery) : false
-        )
+      ? appids.value.filter((v) => (v.name.length ? v.name.toLocaleLowerCase().includes(lowerQuery) : false))
       : appids.value.filter((v) => v.appid.toString().slice(0, lowerQuery.length) == lowerQuery)
     cb(result.slice(0, 25))
   } else {
@@ -86,12 +77,6 @@ const querySearchAsync = (queryString: string, cb: (arg: TSteamAppid<string>[]) 
 
 const handleSelect = (item: Record<string, any>) => {
   appName.value = item.name
-}
-
-const openWithAppID = ({ id, name }: { id: number; name: string }) => {
-  editAppid.value = id.toString()
-  appName.value = name
-  dialogVisible.value = true
 }
 
 const confirmChangeAppid = async () => {
@@ -104,12 +89,19 @@ const confirmChangeAppid = async () => {
     })
     dialogVisible.value = false
   } else {
-    ElMessage.error('当前未购买此游戏')
+    ElMessage.error({
+      message: '当前未购买此游戏',
+      appendTo: '#setting'
+    })
   }
 }
 
 defineExpose({
-  openWithAppID
+  openWithAppID({ id, name }: { id: number; name: string }) {
+    editAppid.value = id.toString()
+    appName.value = name
+    dialogVisible.value = true
+  }
 })
 </script>
 
