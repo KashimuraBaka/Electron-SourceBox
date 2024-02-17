@@ -5,6 +5,8 @@ directories:
 files:
   - '!**/.vscode/*'
   - '!src/*'
+  - '!steamworks' # Steamworks Lib 不打包
+  - '!Saves' # 测试用不打包
   - '!electron.vite.config.{js,ts,mjs,cjs}'
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
