@@ -1,0 +1,112 @@
+.el-overlay {
+  position: absolute;
+  box-sizing: border-box;
+
+  &.w-modal {
+    // 遮罩颜色
+    // --el-overlay-color-lighter: transparent;
+
+    .el-overlay-dialog {
+      position: absolute;
+      overflow: hidden;
+
+      .el-dialog {
+        background: var(--theme-dialog-bg-color);
+        border-radius: 10px;
+        border: var(--theme-drawer-border-color) solid 1px;
+        box-shadow: var(--theme-card-shadow);
+
+        .el-dialog__header {
+          font-size: 20px;
+          font-weight: 500;
+          margin: 0;
+          padding: 29px 25px 14px;
+        }
+
+        .el-dialog__body {
+          padding: 0 25px 24px;
+        }
+
+        .el-dialog__footer {
+          position: relative;
+          overflow: hidden;
+          padding: 15px 25px;
+          border-top: var(--theme-dialog-bottom-border-color) solid 1px;
+          border-radius: 0 0 10px 10px;
+          background-color: var(--theme-dialog-bottom-bg-color);
+        }
+
+        .el-dialog__body,
+        .el-dialog__footer {
+          .el-button {
+            color: var(--theme-btn-color);
+            background-color: var(--theme-btn-bg-color);
+            --el-border: var(--theme-btn-border-color);
+            --el-button-hover-border-color: var(--theme-btn-border-color);
+
+            &.is-disabled {
+              --theme-btn-color: var(--theme-btn-disabled-font-color);
+              --theme-btn-bg-color: var(--theme-btn-disabled-border-color);
+            }
+
+            &.is-loading::before {
+              --el-mask-color-extra-light: rgba(0, 0, 0, 0.1);
+            }
+
+            &:not(.is-disabled):hover {
+              color: var(--theme-btn-color);
+              background-color: var(--theme-btn-hover-bg-color);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /** MessageBox 消息框魔改样式 */
+  &.is-message-box > .el-overlay-message-box {
+    position: absolute;
+
+    .el-message-box {
+      &.fit {
+        width: fit-content;
+        --el-messagebox-width: unset;
+      }
+
+      padding: 0;
+      background-color: var(--theme-dialog-bg-color) !important;
+      border-radius: 10px !important;
+      box-shadow: var(--theme-card-shadow) !important;
+
+      .el-button {
+        color: var(--theme-btn-color);
+        background-color: var(--theme-btn-bg-color);
+        --el-border: var(--theme-btn-border-color);
+        --el-button-hover-border-color: var(--theme-btn-border-color);
+
+        &:hover {
+          color: var(--theme-btn-color);
+          background-color: var(--theme-btn-hover-bg-color);
+        }
+      }
+
+      .el-message-box__header {
+        padding: 25px 25px 0 25px;
+      }
+
+      .el-message-box__content {
+        padding: 20px 25px 20px;
+
+        .el-icon {
+          color: white;
+        }
+      }
+
+      .el-message-box__btns {
+        background-color: var(--theme-dialog-bottom-bg-color);
+        padding: 15px 25px;
+        border-top: var(--theme-dialog-bottom-border-color) solid 1px;
+      }
+    }
+  }
+}

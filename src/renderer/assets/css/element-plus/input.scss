@@ -1,0 +1,95 @@
+.el-input {
+  .el-input__wrapper {
+    --el-input-border-radius: 5px;
+
+    background-color: var(--theme-input-bg-color);
+    border-top: var(--theme-input-border-color) solid 1px;
+    border-left: var(--theme-input-border-color) solid 1px;
+    border-right: var(--theme-input-border-color) solid 1px;
+    border-bottom: var(--theme-input-bottom-color) solid 1px;
+    box-sizing: border-box;
+    box-shadow: unset;
+
+    &.is-focus {
+      background-color: var(--theme-input-focus-bg-color);
+      --theme-input-bottom-color: var(--theme-input-focus-bottom-color);
+    }
+
+    .el-input__inner {
+      font-family: 'HarmonyOS_Regular';
+    }
+  }
+
+  .el-input-group__prepend {
+    padding: 0;
+    box-sizing: border-box;
+    --el-input-border-color: var(--theme-input-border-color);
+
+    .el-color-picker {
+      height: 100%;
+      width: 60px;
+      padding: 0;
+      box-sizing: border-box;
+
+      .el-color-picker__trigger {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        border: none;
+      }
+
+      .el-color-picker__color {
+        border-top: transparent solid 1px;
+        border-left: transparent solid 1px;
+        border-bottom: transparent solid 1px;
+        border-right: none;
+        border-radius: 3px 0 0 3px;
+        box-sizing: border-box;
+        transform: translate3d(0, 0, 0); // 修复 Chrome 浏览器渲染Bug导致边框毛边
+        overflow: hidden;
+      }
+
+      .el-color-picker__icon {
+        display: none;
+      }
+    }
+  }
+
+  .el-input-group__append {
+    --el-input-border-color: var(--theme-input-border-color);
+
+    button.el-button {
+      color: var(--theme-btn-color);
+      border-right: var(--theme-input-border-color) solid 1px;
+      background-color: var(--theme-btn-bg-color);
+      border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;
+
+      &:hover {
+        color: var(--theme-btn-color);
+        background-color: var(--theme-btn-hover-bg-color);
+      }
+    }
+  }
+}
+
+.el-textarea {
+  --t-height: auto;
+
+  .el-textarea__inner {
+    height: var(--t-height);
+    border-top: var(--theme-input-border-color) solid 1px;
+    border-left: var(--theme-input-border-color) solid 1px;
+    border-right: var(--theme-input-border-color) solid 1px;
+    border-bottom: var(--theme-input-bottom-color) solid 1px;
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    background-color: var(--theme-input-bg-color);
+    box-sizing: border-box;
+    box-shadow: unset;
+    font-weight: normal;
+
+    &:focus {
+      background-color: var(--theme-input-focus-bg-color);
+      --theme-input-bottom-color: var(--theme-input-focus-bottom-color);
+    }
+  }
+}

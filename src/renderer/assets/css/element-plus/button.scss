@@ -1,0 +1,36 @@
+.el-button {
+  // button组件会自动回复默认字体样式
+  font-family: 'HarmonyOS_Regular';
+
+  // 因为有些组件需要依赖原始el-button, 所以添加自定义类来转换
+  &.win {
+    --el-border: var(--theme-btn-border-color);
+    --el-button-hover-border-color: var(--theme-btn-border-color);
+
+    color: var(--theme-btn-color);
+    background-color: var(--theme-btn-bg-color);
+    border: var(--theme-btn-border-color) solid 1px;
+
+    &.is-disabled {
+      --theme-btn-color: var(--theme-btn-disabled-font-color);
+      --theme-btn-bg-color: var(--theme-btn-disabled-border-color);
+    }
+
+    &.is-loading::before {
+      --el-mask-color-extra-light: rgba(0, 0, 0, 0.1);
+    }
+
+    &:not(.is-disabled):hover {
+      color: var(--theme-btn-color);
+      background-color: var(--theme-btn-hover-bg-color);
+    }
+  }
+
+  &:focus {
+    background-color: var(--theme-btn-bg-color);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}

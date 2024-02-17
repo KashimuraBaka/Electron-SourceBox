@@ -1,0 +1,14 @@
+.el-message {
+  position: absolute; // 由于之前样式fixed, 会穿透所有样式
+  border-top: var(--el-message-border-color) solid 4px;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  box-sizing: border-box;
+  background-color: var(--theme-msg-bg-color);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+
+  .el-message__content {
+    color: white;
+  }
+}

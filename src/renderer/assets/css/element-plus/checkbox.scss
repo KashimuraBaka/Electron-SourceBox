@@ -1,0 +1,18 @@
+.el-checkbox {
+  --el-checkbox-height: auto;
+
+  .el-checkbox__input {
+    .el-checkbox__inner {
+      &:hover {
+        border: var(--el-checkbox-input-border);
+      }
+    }
+  }
+
+  .el-checkbox__input.is-checked {
+    .el-checkbox__inner {
+      --el-checkbox-checked-bg-color: var(--theme-checkbox-checked-bg-color);
+      --el-checkbox-checked-icon-color: var(--theme-checkbox-checked-icon-color);
+    }
+  }
+}

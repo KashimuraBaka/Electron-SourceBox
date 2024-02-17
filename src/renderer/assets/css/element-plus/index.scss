@@ -1,0 +1,22 @@
+@use './autocomplete.scss';
+@use './button.scss';
+@use './checkbox.scss';
+@use './container.scss';
+@use './drawer.scss';
+@use './input.scss';
+@use './message.scss';
+@use './overlay.scss';
+@use './popper.scss';
+@use './select.scss';
+@use './switch.scss';
+@use './table.scss';
+
+html {
+  --theme-el-bg-color: hsl(from var(--el-bg-color) h s calc(l + 0.03));
+  --theme-el-bg-color-ex: hsl(from var(--el-bg-color) h s calc(l - 0.015));
+
+  &.dark {
+    --theme-el-bg-color: hsl(from var(--el-bg-color) h s calc(l + 0.03));
+    --theme-el-bg-color-ex: hsl(from var(--el-bg-color) h s calc(l - 0.015));
+  }
+}

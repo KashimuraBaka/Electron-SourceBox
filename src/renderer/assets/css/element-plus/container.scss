@@ -1,0 +1,37 @@
+.el-container.w-container {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 0 0 0 6px;
+
+  // 防止 v-el-loading 变动宽度
+  &:not([loading-number]) {
+    padding: 0;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  & > .el-header {
+    display: flex;
+    align-items: center;
+    height: 84px;
+    padding: 0 36px 0 32px;
+    h1 {
+      flex: 1;
+      margin: 0;
+      font-size: 24px;
+      font-weight: normal;
+    }
+  }
+
+  & > .el-main,
+  & > .el-container {
+    width: 100%;
+    height: 100%;
+    padding: 0 34px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+}

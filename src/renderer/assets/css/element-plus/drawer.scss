@@ -1,0 +1,43 @@
+/** 对话框 */
+.el-overlay.w-modal > .el-drawer {
+  --overlay-size: 5px;
+  margin: var(--overlay-size) var(--overlay-size) var(--overlay-size) 0;
+  height: calc(100% - (var(--overlay-size) * 2));
+  border-radius: 10px;
+  box-shadow: var(--theme-card-shadow);
+  border: var(--theme-drawer-border-color) solid 1px;
+
+  .el-drawer__body {
+    --el-drawer-padding-primary: 10px;
+  }
+
+  .el-button {
+    color: var(--theme-btn-color);
+    --el-border: var(--theme-drawer-border-color) solid 1px;
+    --el-button-hover-border-color: var(--theme-drawer-border-color);
+
+    &:hover {
+      color: var(--theme-btn-color);
+      background-color: var(--theme-btn-hover-bg-color);
+    }
+  }
+}
+
+/** 自定义 */
+.el-overlay.win-page {
+  // 移除抽屉组件动画
+  &.el-drawer-fade-enter-from,
+  &.el-drawer-fade-leave-to {
+    .el-drawer {
+      transform: unset;
+    }
+  }
+
+  .el-drawer {
+    background-color: var(--theme-content-bg);
+
+    .el-drawer__body {
+      padding: 0;
+    }
+  }
+}

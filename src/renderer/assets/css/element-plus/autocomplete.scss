@@ -1,0 +1,11 @@
+.el-popper.w-autocomplete > .el-autocomplete-suggestion {
+  & li {
+    display: flex;
+    padding: 0 15px 0 10px;
+    line-height: 24px;
+  }
+  &.is-loading li {
+    align-items: center;
+    justify-content: center;
+  }
+}
