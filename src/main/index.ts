@@ -1,124 +1,96 @@
-import { app, shell, ipcMain, BrowserWindow } from 'electron'
+import { BrowserWindow, app } from 'electron'
 import { join } from 'path'
-import { writeFileSync, accessSync, constants } from 'fs'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { registerIpcHandler, registerServiceHandler } from './handlers'
+import MainWindow from './window/mainWindow'
+import LocalStore from './stores/localstore'
+
 import icon from '/resources/icon.png?asset'
-import Greenworks from 'greenworks'
 
-// 解决steam overlay无效的问题
-// app.commandLine.appendSwitch('--in-process-gpu')
+app.commandLine.appendSwitch('disable-features', 'WidgetLayering')
 
-function fileIsExist(filePath: string): boolean {
-  try {
-    accessSync(filePath, constants.F_OK)
-    return true
-  } catch (err) {
-    return false
+// 主进程注册服务
+registerIpcHandler()
+
+export class Main {
+  public mainWindow!: MainWindow
+
+  constructor() {
+    app.on('ready', this.onReady.bind(this))
+    app.on('activate', this.onActivate.bind(this))
+    app.on('browser-window-created', this.onBrowserWindowCreated.bind(this))
+    app.on('window-all-closed', this.onWindowAllClosed.bind(this))
+    app.on('will-quit', this.onWillQuit.bind(this))
   }
-}
 
-function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
-    minWidth: 960,
-    minHeight: 620,
-    show: false,
-    frame: false,
-    transparent: true,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
-  })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-  })
-
-  // 登录窗口最小化
-  ipcMain.on('window-min', () => {
-    mainWindow.minimize()
-  })
-
-  // 登录窗口最大化
-  ipcMain.on('window-max', () => {
-    if (mainWindow.isMaximized()) {
-      mainWindow.unmaximize()
-    } else {
-      mainWindow.maximize()
-    }
-  })
-
-  // 登录窗口关闭
-  ipcMain.on('window-close', () => {
-    mainWindow.close()
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+  async onWillQuit() {
+    //
   }
-}
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  /**
+   * 当 Electron 完成初始化并准备好创建浏览器窗口时, 将调用此方法.
+   * 某些API只有在该事件发生后才能使用.
+   */
+  async onReady() {
+    // 创建窗口
+    this.mainWindow = await this.createWindow()
+    // 启用服务并给主窗口发送管道通信
+    registerServiceHandler()
+  }
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
+  async onActivate() {
+    if (MainWindow.getAllWindows().length === 0) {
+      this.createWindow()
+    }
+  }
+
+  /**
+   * 在开发中默认通过 F12 打开或关闭 DevTools，在生产中忽略 CommandOrControl + R。
+   * https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+   *
+   * @param _
+   * @param window 窗口句柄
+   */
+  async onBrowserWindowCreated(_: unknown, window: BrowserWindow) {
     optimizer.watchWindowShortcuts(window)
-  })
+  }
 
-  // 写出 Steam_Appid.txt
-  const steamAppFile = join(__dirname, '../../steam_appid.txt')
-  if (!fileIsExist(steamAppFile)) {
-    try {
-      writeFileSync(steamAppFile, '480')
-      console.log('已写出 Steam_Appid.txt ...')
-    } catch (err) {
-      console.log('写入Steam Appid 失败!')
+  /**
+   * 当所有窗口关闭时退出(macOS 除外). 在那里,应用程序及其菜单栏通常会保持活动状态, 直到用户使用 Cmd + Q 显式退出。
+   */
+  async onWindowAllClosed() {
+    if (process.platform !== 'darwin') {
+      app.quit()
     }
   }
 
-  // Steamworks 初始化
-  if (Greenworks.init()) {
-    console.log('Steamworks 加载成功!')
+  /**
+   * 创建浏览窗口
+   */
+  async createWindow() {
+    // 设置 Windows 的应用程序用户模型 ID
+    electronApp.setAppUserModelId('com.electron')
+
+    // 创建窗口
+    return new MainWindow({
+      show: false,
+      frame: false,
+      autoHideMenuBar: true,
+      transparent: true,
+      backgroundColor: 'rgba(0,0,0,0)',
+      minHeight: 620,
+      minWidth: 930,
+      ...(process.platform === 'linux' ? { icon } : {}),
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: true, // 如果需要使用消息管道必须要关闭上下文隔离
+        preload: join(__dirname, '../preload/index.js'),
+        sandbox: false
+      }
+    })
   }
+}
 
-  createWindow()
+LocalStore.main = new Main()
 
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
+// 在此文件中, 您可以包含应用程序特定主流程代码的其余部分. 您还可以将它们放在单独的文件中并在此处需要它们。
