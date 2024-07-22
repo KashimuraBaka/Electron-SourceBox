@@ -1,32 +1,32 @@
 <template>
   <el-menu :default-active="$route.path" :collapse="true" router>
-    <el-menu-item index="/" class="first">
+    <el-menu-item index="/main" class="first">
       <el-icon>
         <HomeFilled />
       </el-icon>
       <div class="item-name">主页</div>
     </el-menu-item>
     <div class="main-menu">
-      <el-menu-item index="/servers">
+      <el-menu-item index="/main/servers">
         <el-icon>
           <i-teenyicons:servers-outline />
         </el-icon>
         <div class="item-name">服务器</div>
       </el-menu-item>
-      <el-menu-item index="/workshop">
+      <el-menu-item index="/main/workshop">
         <el-icon>
           <i-bi:tools />
         </el-icon>
         <div class="item-name">创意工坊</div>
       </el-menu-item>
     </div>
-    <el-menu-item v-if="store.web.enable" index="/obsliveoptions">
+    <el-menu-item v-if="store.web.enable" index="/main/obsliveoptions">
       <el-icon>
         <i-ic:round-live-tv />
       </el-icon>
       <div class="item-name">OBS设置</div>
     </el-menu-item>
-    <el-menu-item index="/setting">
+    <el-menu-item index="/main/setting">
       <el-icon>
         <Setting />
       </el-icon>

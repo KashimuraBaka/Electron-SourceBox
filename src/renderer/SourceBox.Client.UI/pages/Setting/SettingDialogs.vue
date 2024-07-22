@@ -35,12 +35,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { API } from '@renderer/utils'
+import SteamAPI from '@renderer/utils/steam-api'
 
 import { Loading } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
-import type { TSteamAppid } from '@renderer/utils/api/types'
+import type { TSteamAppid } from '@renderer/utils/steam-api/types'
 
 const emit = defineEmits<{
   (e: 'appidChange', value: { appid: number; name: string }): void
@@ -51,7 +51,7 @@ const appids = ref<TSteamAppid<string>[]>([])
 const appName = ref('')
 
 const handleOpen = async () => {
-  const res = await API.Steam.GetAppList()
+  const res = await SteamAPI.GetAppList()
   if (dialogVisible.value) {
     appids.value = res
   } else {

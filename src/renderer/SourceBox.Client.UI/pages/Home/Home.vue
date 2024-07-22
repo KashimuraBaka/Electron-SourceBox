@@ -33,7 +33,7 @@
       </WinCard>
     </div>
     <el-button-group class="btns">
-      <el-button @click="runGame">
+      <el-button type="primary" @click="runGame">
         <div class="title">启动游戏</div>
         <div class="content">{{ store.steamApp.name }}</div>
       </el-button>
@@ -44,12 +44,13 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
 import useCounterStore from '@desktop/services/store'
-import { API, SteamConsole, SteamConvert, chunkArray } from '@renderer/utils'
+import { SteamConsole, SteamConvert, chunkArray } from '@renderer/utils'
+import SteamAPI from '@renderer/utils/steam-api'
 
 import WinCard from '@desktop/components/WinCard.vue'
 import WinImage from '@desktop/components/WinImage.vue'
 
-import STEAM_AVATER from '@renderer/assets/images/steam_avatar_empty.jpg'
+import STEAM_AVATER from '@renderer/assets/images/steam_avatar_empty.webp'
 
 const store = useCounterStore()
 
@@ -73,7 +74,7 @@ onMounted(async () => {
   // 获取头像和头像框
   const iSteamID3 = SteamConvert.ID64To3Number(store.CSteamID.steamId64.toString())
   if (iSteamID3 != -1) {
-    const res = await API.Steam.GetMiniProfile(iSteamID3)
+    const res = await SteamAPI.GetMiniProfile(iSteamID3)
     if (res) {
       Avater.display = res.avatar_url
       Avater.frame = res.avatar_frame
@@ -85,7 +86,7 @@ onMounted(async () => {
   const friends = await window.steamworks.run('steamfriends.getFriends', 11)
   const friends_stemaids = friends.map((v) => v.steamid)
   for (const steamids of chunkArray(friends_stemaids, 100)) {
-    const res = await API.Steam.GetPlayerSummaries(steamids)
+    const res = await SteamAPI.GetPlayerSummaries(steamids)
     if (res) {
       for (const steamid of steamids) {
         const friend = friends.find((v) => v.steamid == steamid)
@@ -179,10 +180,8 @@ onMounted(async () => {
     inset: auto 2vw 2vw auto;
     .el-button {
       height: auto;
-      border: 0;
       min-width: 250px;
       padding: 20px 0;
-      background-color: var(--theme-btn-bg-color);
 
       .title {
         font-size: 20px;

@@ -1,10 +1,12 @@
 /** 文件大小单位转换 */
-const sizeof = (b64Bytes: bigint) => {
-  const bytes = Number(b64Bytes)
-  if (bytes <= 0) return '0 Bytes'
+const sizeof = (byte: number | bigint) => {
+  if (typeof byte == 'bigint') {
+    byte = Number(byte)
+  }
+  if (byte <= 0) return '0 Bytes'
   const unitArr = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-  const index = Math.floor(Math.log(bytes) / Math.log(1024))
-  return (bytes / Math.pow(1024, index)).toFixed(2) + unitArr[index]
+  const index = Math.floor(Math.log(byte) / Math.log(1024))
+  return (byte / Math.pow(1024, index)).toFixed(2) + unitArr[index]
 }
 
 const start = (path: string) => {

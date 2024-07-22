@@ -1,6 +1,6 @@
 .el-input {
   .el-input__wrapper {
-    --el-input-border-radius: 5px;
+    --el-input-border-radius: 4px;
 
     background-color: var(--theme-input-bg-color);
     border-top: var(--theme-input-border-color) solid 1px;
@@ -12,18 +12,23 @@
 
     &.is-focus {
       background-color: var(--theme-input-focus-bg-color);
+      box-shadow: 0 -1px 0 0 var(--theme-input-focus-bottom-inset-color) inset;
       --theme-input-bottom-color: var(--theme-input-focus-bottom-color);
     }
 
     .el-input__inner {
       font-family: 'HarmonyOS_Regular';
+      color: var(--theme-input-color);
     }
   }
 
   .el-input-group__prepend {
     padding: 0;
     box-sizing: border-box;
-    --el-input-border-color: var(--theme-input-border-color);
+    box-shadow:
+      0 1px 0 0 var(--theme-input-border-color) inset,
+      0 -1px 0 0 var(--theme-btn-bottom-color) inset,
+      -1px 0 0 0 var(--theme-input-border-color) inset;
 
     .el-color-picker {
       height: 100%;
@@ -56,18 +61,16 @@
   }
 
   .el-input-group__append {
-    --el-input-border-color: var(--theme-input-border-color);
+    box-shadow:
+      0 1px 0 0 var(--theme-input-border-color) inset,
+      0 -1px 0 0 var(--theme-btn-bottom-color) inset,
+      -1px 0 0 0 var(--theme-input-border-color) inset;
 
     button.el-button {
       color: var(--theme-btn-color);
+      border: none;
       border-right: var(--theme-input-border-color) solid 1px;
-      background-color: var(--theme-btn-bg-color);
       border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;
-
-      &:hover {
-        color: var(--theme-btn-color);
-        background-color: var(--theme-btn-hover-bg-color);
-      }
     }
   }
 }
@@ -77,6 +80,7 @@
 
   .el-textarea__inner {
     height: var(--t-height);
+    color: var(--theme-input-color);
     border-top: var(--theme-input-border-color) solid 1px;
     border-left: var(--theme-input-border-color) solid 1px;
     border-right: var(--theme-input-border-color) solid 1px;
@@ -89,6 +93,7 @@
 
     &:focus {
       background-color: var(--theme-input-focus-bg-color);
+      box-shadow: 0 -1px 0 0 var(--theme-input-focus-bottom-inset-color) inset;
       --theme-input-bottom-color: var(--theme-input-focus-bottom-color);
     }
   }

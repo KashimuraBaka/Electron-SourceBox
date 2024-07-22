@@ -28,10 +28,10 @@
         -->
         <div class="btns">
           <div class="actions-start">
-            <el-button class="win" size="small" @click="selectAllWorkshopItem">
+            <el-button size="small" @click="selectAllWorkshopItem">
               {{ checkBoxSelectCount == collection.items.length ? '取消全选' : `全选(${checkBoxSelectCount})` }}
             </el-button>
-            <el-button :class="{ win: true, star: isStar }" size="small" @click="onStarClick">
+            <el-button :class="{ star: isStar }" size="small" @click="onStarClick">
               <template #icon>
                 <i-material-symbols:kid-star v-if="isStar" />
                 <i-material-symbols:kid-star-outline v-else />
@@ -40,13 +40,13 @@
             </el-button>
           </div>
           <div v-if="checkBoxSelectCount" class="actions-end">
-            <el-button class="win" size="small" :loading="subscriptionLoading" @click="onSubClick">
+            <el-button size="small" :loading="subscriptionLoading" @click="onSubClick">
               <template #icon>
                 <i-material-symbols:add />
               </template>
               订阅所选
             </el-button>
-            <el-button class="win" size="small" :loading="unSubscriptionLoading" @click="onUnSubClick">
+            <el-button size="small" :loading="unSubscriptionLoading" @click="onUnSubClick">
               <template #icon>
                 <i-material-symbols:check-indeterminate-small />
               </template>
@@ -112,7 +112,7 @@ import { SecondToDate } from '@renderer/utils/time'
 
 import WinCollapse from '@desktop/components/WinCollapse.vue'
 
-import type { TSteamWorkshopCollectionDetails } from '@renderer/utils/api/types'
+import type { TSteamWorkshopCollectionDetails } from '@renderer/utils/steam-api/types'
 
 const props = defineProps<{
   subscriptionItems: WorkshopItemSubscriptionDetail[]

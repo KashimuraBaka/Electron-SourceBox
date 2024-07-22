@@ -4,9 +4,10 @@
       <div class="container">
         <div class="header">
           <el-tag>{{ raw?.Folder }}</el-tag>
-          <span>
+          <div class="name">
             {{ raw?.Name }}
-          </span>
+          </div>
+          <el-button size="small" type="danger" @click="deleteServer">删除服务器</el-button>
         </div>
         <div class="main">
           <el-descriptions :column="1" size="small">
@@ -27,7 +28,7 @@
             <el-radio-button label="玩家" />
             <el-radio-button label="参数" />
           </el-radio-group>
-          <el-table v-if="selectMode == '玩家'" class="w-table_2 full" :data="players" size="small">
+          <el-table v-if="selectMode == '玩家'" class="w-table style2 full" :data="players" size="small">
             <el-table-column label="玩家">
               <template #default="{ row }">
                 {{ row.Name || '正在载入中...' }}
@@ -36,13 +37,13 @@
             <el-table-column prop="Score" label="分数" width="80" />
             <el-table-column prop="Time" label="游玩时间" width="80" />
           </el-table>
-          <el-table v-else class="w-table_2" :data="rules" size="small">
+          <el-table v-else class="w-table style2 full" :data="rules" size="small">
             <el-table-column prop="Convar" label="参数" width="230" />
             <el-table-column prop="Value" label="数值" />
           </el-table>
         </div>
         <div class="btns">
-          <el-button size="large" type="danger" @click="deleteServer">删除服务器</el-button>
+          <el-button v-if="store.web.enable" size="large" @click="showToServer">显示该服务器</el-button>
           <el-button size="large" @click="refreshInfo">刷新</el-button>
           <el-button-group size="large">
             <el-button @click="connectToServer">进入服务器</el-button>
@@ -133,6 +134,13 @@ const refreshModeInfo = (mode: string | number | boolean) => {
       })
       break
     }
+  }
+}
+
+const showToServer = () => {
+  if (!raw.value) return
+  if (store.web.enable) {
+    store.createSourceServerMessage(raw.value.IP)
   }
 }
 
@@ -242,8 +250,19 @@ defineExpose({
     margin-bottom: 4px;
     background-color: color-mix(in srgb, var(--t-bg-color), transparent 50%);
 
-    .el-tag {
+    & > .el-tag {
       margin-right: 10px;
+    }
+
+    & > .name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    & > .el-button {
+      margin-left: 10px;
     }
   }
 

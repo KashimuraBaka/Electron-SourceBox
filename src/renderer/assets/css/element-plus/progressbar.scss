@@ -1,0 +1,14 @@
+.el-progress {
+  .el-progress-bar {
+    .el-progress-bar__outer {
+      border-radius: 5px;
+
+      .el-progress-bar__inner {
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        border-radius: 5px;
+      }
+    }
+  }
+}

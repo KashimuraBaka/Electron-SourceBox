@@ -12,8 +12,8 @@
   &.no-input {
     .el-input {
       --theme-input-bg-color: var(--theme-select-bg-color);
-      --t-input-border-color: var(--theme-select-border-color);
-      --theme-input-bottom-color: var(--theme-select-border-color);
+      --theme-input-border-color: var(--theme-select-border-color);
+      --theme-input-bottom-color: var(--theme-select-bottom-color);
       --theme-input-focus-bg-color: var(--theme-select-focus-bg-color);
       --theme-input-focus-bottom-color: var(--theme-select-focus-bg-color);
     }
@@ -23,9 +23,10 @@
 .el-popper.el-select__popper {
   --el-border-color-light: transparent;
   --el-bg-color-overlay: var(--theme-select-menu-bg-color);
+  --el-box-shadow-light: rgba(0, 0, 0, 0.75) 0px 0px 5px;
 
+  // 坐标偏移
   transform: translate(-2px, -52px);
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
 
   .el-popper__arrow {
     display: none;
@@ -37,18 +38,20 @@
       padding: 6px 5px !important;
 
       .el-select-dropdown__item {
+        color: var(--theme-select-menu-color);
         border-radius: 5px;
         padding: 0 12px;
 
+        &.hover,
         &:hover {
-          background-color: var(--theme-select-menu-hover-bg-color);
+          background-color: var(--theme-select-menu-active-bg-color);
         }
 
         &.selected {
-          background-color: var(--theme-select-menu-hover-bg-color);
+          background-color: var(--theme-select-menu-active-bg-color);
 
           span {
-            color: white;
+            color: var(--theme-select-menu-active-color);
             font-weight: normal;
           }
 

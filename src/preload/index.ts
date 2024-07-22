@@ -10,6 +10,9 @@ const PROCESS_API: TConsole = {
   windowMinimize: defaultInvokeFunction('windowMinimize'),
   windowMaximize: defaultInvokeFunction('windowMaximize'),
   windowClose: defaultInvokeFunction('windowClose'),
+  checkVersion: defaultInvokeFunction('checkVersion'),
+  quitToUpdater: defaultInvokeFunction('quitToUpdater'),
+  downloadUpdater: defaultInvokeFunction('downloadUpdater'),
   openFile: defaultInvokeFunction('openFile'),
   exec: defaultInvokeFunction('exec')
 }

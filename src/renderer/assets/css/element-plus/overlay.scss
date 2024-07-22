@@ -35,30 +35,6 @@
           border-radius: 0 0 10px 10px;
           background-color: var(--theme-dialog-bottom-bg-color);
         }
-
-        .el-dialog__body,
-        .el-dialog__footer {
-          .el-button {
-            color: var(--theme-btn-color);
-            background-color: var(--theme-btn-bg-color);
-            --el-border: var(--theme-btn-border-color);
-            --el-button-hover-border-color: var(--theme-btn-border-color);
-
-            &.is-disabled {
-              --theme-btn-color: var(--theme-btn-disabled-font-color);
-              --theme-btn-bg-color: var(--theme-btn-disabled-border-color);
-            }
-
-            &.is-loading::before {
-              --el-mask-color-extra-light: rgba(0, 0, 0, 0.1);
-            }
-
-            &:not(.is-disabled):hover {
-              color: var(--theme-btn-color);
-              background-color: var(--theme-btn-hover-bg-color);
-            }
-          }
-        }
       }
     }
   }
@@ -78,18 +54,6 @@
       border-radius: 10px !important;
       box-shadow: var(--theme-card-shadow) !important;
 
-      .el-button {
-        color: var(--theme-btn-color);
-        background-color: var(--theme-btn-bg-color);
-        --el-border: var(--theme-btn-border-color);
-        --el-button-hover-border-color: var(--theme-btn-border-color);
-
-        &:hover {
-          color: var(--theme-btn-color);
-          background-color: var(--theme-btn-hover-bg-color);
-        }
-      }
-
       .el-message-box__header {
         padding: 25px 25px 0 25px;
       }
@@ -97,8 +61,9 @@
       .el-message-box__content {
         padding: 20px 25px 20px;
 
+        // 左侧图标颜色
         .el-icon {
-          color: white;
+          color: var(--theme-dialog-icon-color);
         }
       }
 

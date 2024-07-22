@@ -7,13 +7,9 @@
     <el-main>
       <WinOption>
         <template #icon><i-material-symbols-videogame-asset /></template>
-        <template #title>
-          当前应用 AppID: {{ store.steamApp.id }} ({{ store.steamApp.name }})
-        </template>
-        <template #message>
-          修改后可支持当前创意工坊物品查询 (注意: 错误ID或未购买游戏会导致服务启动失败)
-        </template>
-        <el-button class="win" @click="dialog.openWithAppID(store.steamApp)">修改</el-button>
+        <template #title>当前应用 AppID: {{ store.steamApp.id }} ({{ store.steamApp.name }})</template>
+        <template #message>修改后可支持当前创意工坊物品查询 (注意: 错误ID或未购买游戏会导致服务启动失败)</template>
+        <el-button @click="dialog.openWithAppID(store.steamApp)">修改</el-button>
       </WinOption>
       <WinOption>
         <template #icon><MoonNight /></template>
@@ -42,13 +38,7 @@
             <template #message>Build Date: {{ pack_time }}</template>
             <template #extend-content>
               作者:
-              <el-link
-                target="_blank"
-                href="https://steamcommunity.com/id/Kashimura"
-                style="margin-left: 5px"
-              >
-                Kashimura
-              </el-link>
+              <el-link target="_blank" href="https://steamcommunity.com/id/Kashimura" style="margin-left: 5px"> Kashimura </el-link>
             </template>
             <div style="font-size: 12px; margin-right: 14px">版本 {{ soft_version }}</div>
           </WinOption>

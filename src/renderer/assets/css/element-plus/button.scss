@@ -3,34 +3,72 @@
   font-family: 'HarmonyOS_Regular';
 
   // 因为有些组件需要依赖原始el-button, 所以添加自定义类来转换
-  &.win {
-    --el-border: var(--theme-btn-border-color);
-    --el-button-hover-border-color: var(--theme-btn-border-color);
 
-    color: var(--theme-btn-color);
-    background-color: var(--theme-btn-bg-color);
-    border: var(--theme-btn-border-color) solid 1px;
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: var(--theme-btn-top-color) !important;
+  border-left-color: var(--theme-btn-left-color) !important;
+  border-right-color: var(--theme-btn-right-color) !important;
+  border-bottom-color: var(--theme-btn-bottom-color) !important;
 
-    &.is-disabled {
-      --theme-btn-color: var(--theme-btn-disabled-font-color);
-      --theme-btn-bg-color: var(--theme-btn-disabled-border-color);
-    }
+  &.is-disabled {
+    --theme-btn-color: var(--theme-btn-disabled-font-color);
+    --theme-btn-bg-color: var(--theme-btn-disabled-border-color);
+  }
 
-    &.is-loading::before {
-      --el-mask-color-extra-light: rgba(0, 0, 0, 0.1);
-    }
+  &.is-loading::before {
+    --el-mask-color-extra-light: rgba(0, 0, 0, 0.1);
+  }
+
+  // 如果不是没有设置 type 的默认样式
+  &:not([class*='danger']) {
+    --el-button-text-color: var(--theme-btn-color);
+    --el-button-bg-color: var(--theme-btn-bg-color);
 
     &:not(.is-disabled):hover {
       color: var(--theme-btn-color);
-      background-color: var(--theme-btn-hover-bg-color);
+      --el-button-hover-bg-color: var(--theme-btn-hover-bg-color);
     }
   }
 
   &:focus {
-    background-color: var(--theme-btn-bg-color);
+    color: var(--theme-btn-color);
+    background-color: var(--el-button-bg-color);
   }
 
   &:focus-visible {
     outline: none;
+  }
+
+  // 确认样式
+  &.el-button--primary {
+    --theme-btn-color: var(--theme-btn-primary-color);
+    --theme-btn-bg-color: var(--theme-btn-primary-bg-color);
+    --theme-btn-top-color: var(--theme-btn-primary-top-color);
+    --theme-btn-left-color: var(--theme-btn-primary-border-color);
+    --theme-btn-right-color: var(--theme-btn-primary-border-color);
+    --theme-btn-bottom-color: var(--theme-btn-primary-bottom-color);
+
+    &:not(.is-disabled):hover {
+      --theme-btn-color: var(--theme-btn-primary-color);
+      --theme-btn-top-color: var(--theme-btn-primary-hover-border-color);
+      --theme-btn-left-color: var(--theme-btn-primary-hover-border-color);
+      --theme-btn-right-color: var(--theme-btn-primary-hover-border-color);
+      --theme-btn-hover-bg-color: var(--theme-btn-primary-hover-bg-color);
+    }
+  }
+}
+
+// 按钮组
+.el-button-group {
+  .el-button:first-child {
+    --theme-btn-right-color: var(--theme-btn-slice-color);
+  }
+  .el-button:not(:first-child):not(:last-child) {
+    --theme-btn-left-color: var(--theme-btn-slice-color);
+    --theme-btn-right-color: var(--theme-btn-slice-color);
+  }
+  .el-button:last-child {
+    --theme-btn-left-color: var(--theme-btn-slice-color);
   }
 }

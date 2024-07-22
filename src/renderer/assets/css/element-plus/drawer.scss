@@ -10,17 +10,6 @@
   .el-drawer__body {
     --el-drawer-padding-primary: 10px;
   }
-
-  .el-button {
-    color: var(--theme-btn-color);
-    --el-border: var(--theme-drawer-border-color) solid 1px;
-    --el-button-hover-border-color: var(--theme-drawer-border-color);
-
-    &:hover {
-      color: var(--theme-btn-color);
-      background-color: var(--theme-btn-hover-bg-color);
-    }
-  }
 }
 
 /** 自定义 */

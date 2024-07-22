@@ -1,29 +1,34 @@
 <template>
   <el-container class="mainwindow">
+    <!-- 标题工具栏 -->
     <el-header class="mainwindow-header" height="50px">
-      <WinToolBar />
+      <WinToolBar>
+        SourceBox
+        <template #extends>
+          <el-tag v-if="$route.path.match(/^\/main/)" :type="store.CSteamID.init ? 'success' : 'danger'" disable-transitions>
+            {{ store.CSteamID.init ? 'Steam服务已启用' : 'Steam服务已禁用' }}
+          </el-tag>
+        </template>
+      </WinToolBar>
     </el-header>
-    <el-container class="mainwindow-views">
-      <el-aside class="mainwindow-menu">
-        <WinAside />
-      </el-aside>
-      <el-main class="mainwindow-content">
-        <router-view v-slot="{ Component }">
-          <transition name="zoom-in-bottom" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
-      </el-main>
-    </el-container>
+    <!-- 内容 -->
+    <router-view />
   </el-container>
 </template>
 
 <script lang="ts" setup>
-import WinToolBar from '../components/WinToolBar.vue'
-import WinAside from '../components/WinAside.vue'
-</script>
+import { onMounted } from 'vue'
+import router from '@desktop/services/router'
+import useCounterStore from '@desktop/services/store'
 
-<style></style>
+import WinToolBar from '../components/WinToolBar.vue'
+
+const store = useCounterStore()
+
+onMounted(() => {
+  router.replace('')
+})
+</script>
 
 <style lang="scss" scoped>
 .mainwindow {
@@ -33,41 +38,6 @@ import WinAside from '../components/WinAside.vue'
 
   .mainwindow-header {
     padding: 0;
-  }
-
-  .mainwindow-views {
-    box-sizing: border-box;
-    overflow: hidden;
-
-    .mainwindow-menu {
-      width: 70px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .mainwindow-content {
-      position: relative;
-      padding: 0;
-      border-radius: 8px 0 0 0;
-      box-sizing: border-box;
-      border: 1px solid var(--theme-content-border-color);
-      background: var(--theme-content-bg);
-      overflow: hidden;
-
-      // 切入动画
-      .zoom-in-bottom-enter-active {
-        opacity: 1;
-        transform: none;
-        transition: all 150ms ease-out;
-        transform-origin: center bottom;
-      }
-
-      .zoom-in-bottom-enter-from {
-        opacity: 0;
-        position: absolute;
-        transform: translate3d(0, 100%, 0);
-      }
-    }
   }
 }
 </style>

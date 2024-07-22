@@ -17,12 +17,17 @@ win:
   icon: resources/icon.ico
   executableName: SourceBox
 nsis:
-  oneClick: false
-  allowToChangeInstallationDirectory: true
+  oneClick: false # 是否一键安装
+  allowElevation: false # 允许请求提升 如果为false，则用户必须使用提升的权限重新启动安装程序
+  allowToChangeInstallationDirectory: true # 允许修改安装目录
+  perMachine: true #是否显示辅助安装程序的安装模式安装程序页面（选择按机器还是按用户）
   artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
+  shortcutName: ${productName} # 快捷方式名称
   uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
+  createDesktopShortcut: always # 创建桌面图标
+  createStartMenuShortcut: true # 创建开始菜单图标
+  deleteAppDataOnUninstall: true # 卸载后删除用户数据
+  include: ./build/script/installer.nsh # 包含的自定义nsis脚本 这个对于构建需求严格得安装过程相当有用
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
@@ -44,5 +49,7 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  owner: KashimuraBaka
+  repo: Electron-SourceBox
+  releaseType: release

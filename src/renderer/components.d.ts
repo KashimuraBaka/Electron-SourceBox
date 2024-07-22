@@ -45,7 +45,6 @@ declare module 'vue' {
     'IIconParkOutline:badTwo': typeof import('~icons/icon-park-outline/bad-two')['default']
     'IIconParkTwotone:goodOne': typeof import('~icons/icon-park-twotone/good-one')['default']
     'IMaterialSymbols:add': typeof import('~icons/material-symbols/add')['default']
-    'IMaterialSymbols:addCircle': typeof import('~icons/material-symbols/add-circle')['default']
     'IMaterialSymbols:arrowBackIosNew': typeof import('~icons/material-symbols/arrow-back-ios-new')['default']
     'IMaterialSymbols:arrowForwardIos': typeof import('~icons/material-symbols/arrow-forward-ios')['default']
     'IMaterialSymbols:checkIndeterminateSmall': typeof import('~icons/material-symbols/check-indeterminate-small')['default']

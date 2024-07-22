@@ -23,7 +23,7 @@
       </div>
     </el-header>
     <el-main>
-      <el-table class="w-table_1 full" :data="tableData" size="small" @row-click="openExtend">
+      <el-table class="w-table style1 full" :data="tableData" size="small" @row-click="openExtend">
         <el-table-column prop="status" width="25">
           <template #default="{ row }">
             <div :class="getDelayClass(row.Delay)" />
@@ -205,6 +205,7 @@ onUnmounted(() => {
         width: 32px;
         height: 32px;
         border: 0;
+        background: none;
 
         &:hover {
           color: var(--theme-btn-color);

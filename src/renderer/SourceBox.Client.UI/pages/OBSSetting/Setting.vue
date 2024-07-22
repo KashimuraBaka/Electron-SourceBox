@@ -8,7 +8,7 @@
           <template #header>浏览器显示地址</template>
           <el-input v-model="url" readonly>
             <template #append>
-              <el-button class="win" @click="event_Copy(url)">点击复制</el-button>
+              <el-button @click="event_Copy(url)">点击复制</el-button>
             </template>
           </el-input>
         </SettingItem>
@@ -17,34 +17,19 @@
         <SettingItem>
           <template #header>文字样式</template>
           <el-select v-model="formdata.textStyle.shadowType" class="no-input">
-            <el-option
-              v-for="item in StyleOptions.textShadow"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
+            <el-option v-for="item in StyleOptions.textShadow" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </SettingItem>
         <SettingItem>
           <template #header>文字大小</template>
           <el-select v-model="formdata.textStyle.size" class="no-input">
-            <el-option
-              v-for="item in StyleOptions.fontSize"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
+            <el-option v-for="item in StyleOptions.fontSize" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </SettingItem>
         <SettingItem>
-          <template #header>文字样式</template>
+          <template #header>文字对齐</template>
           <el-select v-model="formdata.textStyle.align" class="no-input">
-            <el-option
-              v-for="item in StyleOptions.fontAlign"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
+            <el-option v-for="item in StyleOptions.fontAlign" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </SettingItem>
       </div>
@@ -53,19 +38,13 @@
           <template #header>文本颜色</template>
           <el-input v-model="formdata.textStyle.color">
             <template #prepend>
-              <el-color-picker
-                v-model="formdata.textStyle.color"
-                :predefine="StyleOptions.predefineColors"
-              />
+              <el-color-picker v-model="formdata.textStyle.color" :predefine="StyleOptions.predefineColors" />
             </template>
           </el-input>
         </SettingItem>
         <SettingItem class="color-contrast">
           <el-tooltip placement="top" effect="light" content="对比度是否通过(仅供参考)">
-            <div
-              class="color-box"
-              :style="{ backgroundColor: colorContranst >= 4.5 ? 'darkgreen' : 'darkred' }"
-            >
+            <div class="color-box" :style="{ backgroundColor: colorContranst >= 4.5 ? 'darkgreen' : 'darkred' }">
               <div>{{ colorContranst >= 4.5 ? '通过' : '未通过' }}</div>
               <div>{{ colorContranst.toFixed(2) }}</div>
             </div>
@@ -75,10 +54,7 @@
           <template #header>文本轮廓颜色</template>
           <el-input v-model="formdata.textStyle.shadowColor">
             <template #prepend>
-              <el-color-picker
-                v-model="formdata.textStyle.shadowColor"
-                :predefine="StyleOptions.predefineColors"
-              />
+              <el-color-picker v-model="formdata.textStyle.shadowColor" :predefine="StyleOptions.predefineColors" />
             </template>
           </el-input>
         </SettingItem>
@@ -99,12 +75,7 @@
               </template>
             </el-tooltip>
           </template>
-          <el-input
-            v-model="formdata.customText"
-            type="textarea"
-            resize="none"
-            spellcheck="false"
-          />
+          <el-input v-model="formdata.customText" type="textarea" resize="none" spellcheck="false" />
         </SettingItem>
         <SettingItem>
           <template #header>预览</template>
@@ -114,8 +85,8 @@
         </SettingItem>
       </div>
       <div class="obs-setting-items btns">
-        <el-button class="win" :loading="saveLoading" @click="saveStyleOptions">保存</el-button>
-        <el-button class="win" @click="resetStyleOptions">重置</el-button>
+        <el-button :loading="saveLoading" @click="saveStyleOptions">保存</el-button>
+        <el-button @click="resetStyleOptions">重置</el-button>
       </div>
     </el-main>
   </el-container>
@@ -252,8 +223,7 @@ const event_Copy = (string: string) => {
 
 function defaultStyleOptions(): Config.ObsPlugins {
   return {
-    customText:
-      '当前服务器：{server}\n当前地图：{map}\n服务器IP地址：{ip}\n服务器当前人数：{player}',
+    customText: '当前服务器：{server}\n当前地图：{map}\n服务器IP地址：{ip}\n服务器当前人数：{player}',
     textStyle: {
       size: '1.3rem',
       align: 'left',
@@ -312,6 +282,7 @@ onMounted(async () => {
           flex: 0;
 
           .color-box {
+            color: white;
             width: 60px;
             display: flex;
             align-items: center;

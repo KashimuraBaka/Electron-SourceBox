@@ -65,15 +65,23 @@ export default defineConfig(({ command }) => ({
         output: {
           entryFileNames: 'js/[name].[hash].js',
           chunkFileNames: 'js/lib.[hash].js',
-          assetFileNames: (assets) => {
-            switch (assets.name?.substring(assets.name?.lastIndexOf('.') + 1)) {
-              case 'css':
-                return 'css/style.[hash].[ext]'
-              case 'woff2':
-                return 'font/[hash].[ext]'
-              default:
-                return 'assets/[name].[hash].[ext]'
+          assetFileNames: ({ name: filename }) => {
+            if (filename) {
+              switch (filename.substring(filename.lastIndexOf('.') + 1)) {
+                // 样式资源
+                case 'css':
+                  return 'css/style.[hash].[ext]'
+                // 字体资源
+                case 'woff2':
+                  return 'font/[hash].[ext]'
+                // 图片资源
+                case 'png':
+                case 'jpg':
+                case 'webp':
+                  return 'images/[name].[hash].[ext]'
+              }
             }
+            return 'assets/[name].[hash].[ext]'
           }
         }
       }

@@ -1,3 +1,13 @@
+<!--
+ * @Author: Kashimura
+ * @Date: 2024-04-03 19:43:34
+ * @LastEditors: Kashimura
+ * @LastEditTime: 2024-07-22 16:35:30
+ * @FilePath: \SourceBox\README.md
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by Kashimura, All Rights Reserved. 
+-->
 # sourcebox
 
 An Electron application with Vue and TypeScript
@@ -48,3 +58,10 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+# 镜像源问题
+npm config edit
+registry=https://registry.npmmirror.com
+electron_mirror=https://cdn.npmmirror.com/binaries/electron/
+electron_builder_binaries_mirror=https://npmmirror.com/mirrors/electron-builder-binaries/
+npm cache clean --force

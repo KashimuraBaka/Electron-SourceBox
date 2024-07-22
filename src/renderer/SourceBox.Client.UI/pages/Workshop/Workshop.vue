@@ -50,7 +50,7 @@
       </div>
     </el-main>
     <el-empty v-else description="当前应用无订阅信息">
-      <el-button class="win" @click="gotoSetting">转到 "设置" 更改AppID</el-button>
+      <el-button @click="gotoSetting">转到 "设置" 更改AppID</el-button>
     </el-empty>
     <WorkshopCollection ref="collection" v-model="rawDetails" />
     <el-backtop target="#workshop" :right="50" :bottom="50" @click="showCount = 10" />
@@ -61,17 +61,18 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import router from '@desktop/services/router'
 import useCounterStore from '@desktop/services/store'
-import { chunkArray, uniqueArray, API, Files } from '@renderer/utils'
+import { chunkArray, uniqueArray, Files } from '@renderer/utils'
+import SteamAPI from '@renderer/utils/steam-api'
 
 import WinCollapse from '@desktop/components/WinCollapse.vue'
 import WorkshopItem from './WorkshopItem.vue'
 import WorkshopCollection from './WorkshopCollection.vue'
 
-import type { SteamPlayerInfo } from '@renderer/utils/api/types'
+import type { SteamPlayerInfo } from '@renderer/utils/steam-api/types'
 
 interface ItemsInfo {
   tags: string[]
-  items: WorkshopItemDetail[]
+  items: WorkshopItemSubscriptionDetail[]
 }
 
 interface SelectSlot {
@@ -85,7 +86,7 @@ const collection = ref()
 
 const SPLITE_LENGTH = 10
 
-const rawDetails = ref<WorkshopItemDetail[]>([])
+const rawDetails = ref<WorkshopItemSubscriptionDetail[]>([])
 const workshopSorts = ref<SelectSlot[]>([
   { label: '文件大小', value: 'size' },
   { label: '创建时间', value: 'create' },
@@ -150,7 +151,7 @@ const loadingItem = () => {
 }
 
 const gotoSetting = () => {
-  router.replace('/setting')
+  router.replace('/main/setting')
 }
 
 const loadPlayerWorkshopItems = async () => {
@@ -164,7 +165,7 @@ const loadPlayerWorkshopItems = async () => {
     // 批量查询工坊作者SteamID
     const steamidRaw = uniqueArray(items.map((v) => (v ? v.owner.steamId64 : 0n)))
     for (const steamids of chunkArray(steamidRaw, 100)) {
-      const response = await API.Steam.GetPlayerSummaries(steamids)
+      const response = await SteamAPI.GetPlayerSummaries(steamids)
       if (response && response.players.length) {
         steamidDict.push(...response.players)
       }

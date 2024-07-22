@@ -4,15 +4,6 @@ import Steamworks from '../utils/steamworks'
 
 import type { IpcMainInvokeEvent } from 'electron'
 
-// Steamworks 初始化
-try {
-  LocalStore.steamworks = Steamworks.init(480)
-  // Steamworks.electronEnableSteamOverlay()
-} catch (e) {
-  console.log('[Steamworks] 服务异常:', (<Error>e).message)
-  LocalStore.steamworks_error = (<Error>e).message
-}
-
 async function runFunction(func: (...args: any[]) => any, args: any[]) {
   let result: any
   try {
@@ -29,8 +20,18 @@ export default {
     const funcs = funcsStr.split('.')
     // 是否为预定义
     switch (funcsStr) {
-      case 'initialized':
+      case 'initialized': {
+        // Steamworks 初始化
+        try {
+          LocalStore.steamworks = Steamworks.init(480)
+          // Steamworks.electronEnableSteamOverlay()
+          LocalStore.steamworks_error = ''
+        } catch (e) {
+          console.log('[Steamworks] 服务异常:', (<Error>e).message)
+          LocalStore.steamworks_error = (<Error>e).message
+        }
         return LocalStore.steamworks_error
+      }
       case 'setAppid':
         return (LocalStore.steamworks = Steamworks.init(args[0])) != undefined
       case 'simpleQueryServer':

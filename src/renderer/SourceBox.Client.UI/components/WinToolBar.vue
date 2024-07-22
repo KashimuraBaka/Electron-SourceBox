@@ -2,12 +2,10 @@
   <div :class="{ taskbar: true, disabled: isMaximize }">
     <div class="title" @dblclick="windowMax">
       <img :src="ICON" />
-      <span>SourceBox</span>
+      <span><slot /></span>
     </div>
     <div class="tools-btns">
-      <el-tag :type="store.CSteamID.init ? 'success' : 'danger'" disable-transitions>
-        {{ store.CSteamID.init ? 'Steam服务已启用' : 'Steam服务已禁用' }}
-      </el-tag>
+      <slot name="extends" />
     </div>
     <div class="main-btns">
       <div class="btn" @click="windowMin">
@@ -28,7 +26,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import useCounterStore from '@desktop/services/store'
 
 import ICON from '../../../../resources/icon.png?asset'
 
@@ -39,8 +36,6 @@ const windowMax = async () => {
   isMaximize.value = await window.api.windowMaximize()
 }
 const windowClose = () => window.api.windowClose()
-
-const store = useCounterStore()
 </script>
 
 <style lang="scss" scoped>
@@ -91,12 +86,12 @@ const store = useCounterStore()
       justify-content: center;
 
       &:hover {
-        background-color: var(--theme-btn-bg-color);
         cursor: pointer;
+        background-color: var(--theme-toolbar-btn-bg-color);
       }
-
-      &.close {
-        --theme-btn-bg-color: #f44336;
+      &.close:hover {
+        color: white;
+        background-color: var(--theme-toolbar-btn-close-bg-color);
       }
     }
   }

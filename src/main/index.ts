@@ -77,6 +77,7 @@ export class Main {
       frame: false,
       autoHideMenuBar: true,
       transparent: true,
+      fullscreenable: false,
       backgroundColor: 'rgba(0,0,0,0)',
       minHeight: 620,
       minWidth: 930,

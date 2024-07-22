@@ -25,7 +25,7 @@
         <el-header>
           <div class="workshop-query">
             <el-input v-model="inputWorkshopColleciton" placeholder="请输入创意工坊合集 链接 或 ID" :disabled="inputWorkshopLoading" />
-            <el-button :loading="inputWorkshopLoading" :disabled="!inputWorkshopColleciton.length" class="win" @click="queryCollection">
+            <el-button :loading="inputWorkshopLoading" :disabled="!inputWorkshopColleciton.length" @click="queryCollection">
               <template #icon><i-material-symbols:search /></template>
               查询
             </el-button>
@@ -38,7 +38,7 @@
         <el-main>
           <el-table
             :data="collectionlist"
-            class="w-table_1 full"
+            class="w-table style1 full"
             size="small"
             row-class-name="table-row-bg"
             :row-style="tableRowStyle"
@@ -48,8 +48,8 @@
             <el-table-column label="名称" prop="title" />
             <el-table-column label="更新时间" width="160">
               <template #default="{ row }">
-                <div v-if="!row.create_time">--</div>
-                <div v-else>{{ row.create_time }}</div>
+                <div v-if="!row.update_time">--</div>
+                <div v-else>{{ row.update_time }}</div>
               </template>
             </el-table-column>
             <el-table-column label="已订阅/物品数量" width="120">
@@ -68,11 +68,11 @@
 
 <script lang="tsx" setup>
 import { ref, computed } from 'vue'
-import { API } from '@renderer/utils'
 import useCounterStore from '@desktop/services/store'
 import El from '@renderer/utils/element-plus'
+import SteamAPI from '@renderer/utils/steam-api'
 
-import type { TSteamWorkshopCollectionDetails } from '@renderer/utils/api/types'
+import type { TSteamWorkshopCollectionDetails } from '@renderer/utils/steam-api/types'
 
 import WorkshopCollectionItem from './WorkshopCollectionItem.vue'
 
@@ -141,7 +141,7 @@ const asyncQueryCollection = async (collection_id: number): Promise<TSteamWorksh
       collection_id = Number(id)
     }
   }
-  const res = await API.Steam.GetWorkshopCollectionDetails(collection_id)
+  const res = await SteamAPI.GetWorkshopCollectionDetails(collection_id)
   // 无法请求到Api
   if (!res) {
     throw new Error('获取失败! 请尝试使用魔法上网查询合集')

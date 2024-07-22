@@ -60,7 +60,7 @@ import { SteamConsole, Files } from '@renderer/utils'
 import { SecondToDate, FormatTime } from '@renderer/utils/time'
 
 const props = defineProps<{
-  item: WorkshopItemDetail
+  item: WorkshopItemSubscriptionDetail
 }>()
 
 const hover = ref(false)

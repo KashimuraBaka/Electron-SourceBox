@@ -3,9 +3,8 @@ import Color from './color'
 import * as SteamConsole from './steam_console'
 import SteamConvert from './steam_convert'
 import CssStyle from './css_style'
-import API from './api'
 
-export { Files, SteamConsole, Color, CssStyle, API, SteamConvert }
+export { Files, SteamConsole, Color, CssStyle, SteamConvert }
 
 export class DomHandler {
   public dom: DocumentFragment | Element

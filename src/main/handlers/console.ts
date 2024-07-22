@@ -1,7 +1,9 @@
 import { exec } from 'child_process'
 import { BrowserWindow, dialog } from 'electron'
+import AppUpdater from '../updater'
 
 import type { IpcMainInvokeEvent } from 'electron'
+import LocalStore from '../stores/localstore'
 
 export default {
   /** 窗口最小化 */
@@ -28,6 +30,23 @@ export default {
   windowClose: async (event: IpcMainInvokeEvent) => {
     BrowserWindow.fromWebContents(event.sender)?.close()
   },
+  /** 检查更新 */
+  checkVersion: async (event: IpcMainInvokeEvent) => {
+    const window = BrowserWindow.fromWebContents(event.sender)
+    if (window && !LocalStore.updater) {
+      LocalStore.updater = new AppUpdater(window.webContents)
+    }
+    return await LocalStore.updater?.Check()
+  },
+  /** 退出并安装更新 */
+  downloadUpdater: async () => {
+    LocalStore.updater?.Download()
+  },
+  /** 退出并安装更新 */
+  quitToUpdater: async () => {
+    LocalStore.updater?.Install()
+  },
+  /** 打开文件 */
   openFile: async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({})
     if (!canceled) {
@@ -35,6 +54,7 @@ export default {
     }
     return ''
   },
+  /** 执行文件 */
   exec: async (_event: IpcMainInvokeEvent, ...args: any[]): Promise<boolean> => {
     const command = args[0]
     if (command) {
